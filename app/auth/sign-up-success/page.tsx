@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
   Card,
   CardContent,
@@ -6,6 +7,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+export const metadata: Metadata = {
+  title: "Registriracija uspešna",
+};
+
 export default function Page() {
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
@@ -13,15 +18,16 @@ export default function Page() {
         <div className="flex flex-col gap-6">
           <Card>
             <CardHeader>
-              <CardTitle className="text-2xl">
-                Thank you for signing up!
-              </CardTitle>
-              <CardDescription>Check your email to confirm</CardDescription>
+              <CardTitle className="text-2xl">Hvala za registracijo!</CardTitle>
+              <CardDescription>
+                Preverite elektronski predal za potrditveno kodo.
+              </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground">
-                You&apos;ve successfully signed up. Please check your email to
-                confirm your account before signing in.
+              <p className="text-muted-foreground text-sm">
+                Uspešno ste se registrirali. Na elektronski naslov ste prejeli
+                potrditveno kodo, ki jo je potrebno potrditi pred začetkom
+                uporabe platforme.
               </p>
             </CardContent>
           </Card>

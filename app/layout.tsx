@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
-import { ThemeProvider } from "next-themes";
+import { Barlow, Zilla_Slab } from "next/font/google";
 import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -9,14 +8,25 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
+  title: {
+    template: "%s | Pasji park Rogaška Slatina",
+    default: "Dobrodošli | Pasji park Rogaška Slatina",
+  },
   description: "The fastest way to build apps with Next.js and Supabase",
 };
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  display: "swap",
+const barlow = Barlow({
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-barlow",
+  display: "swap",
+});
+
+const zilla = Zilla_Slab({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-zilla",
+  display: "swap",
 });
 
 export default function RootLayout({
@@ -25,16 +35,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.className} antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+    <html
+      lang="sl"
+      suppressHydrationWarning
+      className={`${barlow.variable} ${zilla.variable} bg-background`}
+    >
+      <body
+        className={`${barlow.className} mx-4 max-w-[1440px] md:mx-8 lg:mx-20 xl:mx-auto xl:px-20`}
+      >
+        {children}
       </body>
     </html>
   );
