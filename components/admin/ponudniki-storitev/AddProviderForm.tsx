@@ -8,9 +8,10 @@ import { useActionState, useState } from "react";
 const categories = ["Veterina", "Pasji salon"];
 
 function AddProviderForm() {
-  const [state, formAction] = useActionState(createProvider, {
+  const [state, formAction,isPending] = useActionState(createProvider, {
     success: false,
   });
+
   const [file, setFile] = useState<File | null>(null);
   const [files, setFiles] = useState<FileList | null>(null);
   const [isOpenCategories, setIsOpenCategories] = useState(false);
@@ -22,13 +23,23 @@ function AddProviderForm() {
     } else {
       setCategory([...category, cat]);
     }
+    setIsOpenCategories(false);
   }
 
   return (
     <form className="flex flex-col gap-16" action={formAction}>
-      <button className="bg-accent hover:bg-accent/80 flex cursor-pointer items-center gap-3 self-end rounded-lg px-6 py-1.5 font-semibold shadow-xs transition-colors duration-200">
-        <Save height={20} />
-        Shrani profil
+      <button
+        className="bg-accent hover:bg-accent/80 flex cursor-pointer items-center gap-3 self-end rounded-lg px-6 py-1.5 font-semibold shadow-xs transition-colors duration-200 disabled:cursor-pointer disabled:opacity-20"
+        disabled={isPending}
+      >
+        {isPending ? (
+          "..."
+        ) : (
+          <>
+            <Save height={20} />
+            Shrani profil
+          </>
+        )}
       </button>
       {state.error && (
         <p className="self-end font-medium text-red-500">{state.error}</p>
@@ -76,6 +87,40 @@ function AddProviderForm() {
             name="imgs"
             onChange={(e) => setFiles(e.target.files)}
           />
+          {files?.length && files.length > 0 && (
+            <div className="grid grid-cols-2 gap-3">
+              {Array.from(files).map((img, i) => (
+                <div key={(i + 1) * 100} className="flex flex-col items-center">
+                  <Image
+                    src={URL.createObjectURL(img)}
+                    alt="slika"
+                    height={100}
+                    width={100}
+                    className="h-auto w-full object-cover"
+                  />
+                  <XIcon
+                    className="cursor-pointer text-red-500"
+                    onClick={() => {
+                      const updatedFiles = Array.from(files).filter(
+                        (f) => f.name !== img.name,
+                      );
+
+                      const dataTransfer = new DataTransfer();
+                      updatedFiles.forEach((file) =>
+                        dataTransfer.items.add(file),
+                      );
+
+                      if (files.length > 1) {
+                        setFiles(dataTransfer.files);
+                      } else {
+                        setFiles(null);
+                      }
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
           <div className="flex items-center gap-2">
             <label
               htmlFor="imgs"

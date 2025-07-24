@@ -8,7 +8,7 @@ import Youtube from "@tiptap/extension-youtube";
 import TextAlign from "@tiptap/extension-text-align";
 import TipTapImage from "@tiptap/extension-image";
 import { useState } from "react";
-import { ChevronDown, XIcon } from "lucide-react";
+import { ChevronDown, Save, XIcon } from "lucide-react";
 import Image from "next/image";
 import { deleteCoverImg, deleteImg, editPost } from "@/lib/actions";
 
@@ -35,6 +35,7 @@ export default function EditBlogEditor({
   const [file, setFile] = useState<File | null>(null);
   const [files, setFiles] = useState<FileList | null>(null);
   const [isOpenCategories, setIsOpenCategories] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const editor = useEditor({
     immediatelyRender: false,
@@ -62,21 +63,31 @@ export default function EditBlogEditor({
     } else {
       setCategory([...category, cat]);
     }
+
+    setIsOpenCategories(false);
   }
 
   async function handleSubmit() {
-    if (editor) {
-      const html = editor.getHTML();
+    try {
+      setIsLoading(true);
 
-      await editPost({
-        title,
-        html,
-        category: category.join(", "),
-        imgs: files,
-        coverImg: file,
-        summary,
-        slug,
-      });
+      if (editor) {
+        const html = editor.getHTML();
+
+        await editPost({
+          title,
+          html,
+          category: category.join(", "),
+          imgs: files,
+          coverImg: file,
+          summary,
+          slug,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -229,7 +240,10 @@ export default function EditBlogEditor({
               {files?.length || imgs.length > 0 ? (
                 <div className="grid grid-cols-2 gap-3">
                   {(files ? [...files, ...imgs] : imgs).map((f, i) => (
-                    <div className="relative h-full w-full" key={i}>
+                    <div
+                      className="flex h-full w-full flex-col items-center"
+                      key={i}
+                    >
                       <Image
                         src={
                           f instanceof File
@@ -241,15 +255,32 @@ export default function EditBlogEditor({
                         width={400}
                         className="h-auto w-full object-cover"
                       />
-                      {!(f instanceof File) && (
-                        <XIcon
-                          height={16}
-                          className="absolute top-2 right-8 cursor-pointer text-red-500"
-                          onClick={() =>
-                            handleDeleteImg({ slug, img: f, imgs })
+
+                      <XIcon
+                        className="cursor-pointer text-red-500"
+                        onClick={() => {
+                          if (!(f instanceof File)) {
+                            handleDeleteImg({ slug, img: f, imgs });
                           }
-                        />
-                      )}
+
+                          if (files && f instanceof File) {
+                            const updatedFiles = Array.from(files).filter(
+                              (img) => f.name !== img.name,
+                            );
+
+                            const dataTransfer = new DataTransfer();
+                            updatedFiles.forEach((file) =>
+                              dataTransfer.items.add(file),
+                            );
+
+                            if (files.length > 1) {
+                              setFiles(dataTransfer.files);
+                            } else {
+                              setFiles(null);
+                            }
+                          }
+                        }}
+                      />
                     </div>
                   ))}
                 </div>
@@ -276,10 +307,18 @@ export default function EditBlogEditor({
             </div>
           </div>
           <button
-            className="bg-accent hover:bg-accent/80 font-tmedium cursor-pointer self-end rounded-lg px-4 py-1 text-white transition-colors duration-200"
+            className="bg-accent hover:bg-accent/80 flex cursor-pointer items-center gap-2 self-end rounded-lg px-4 py-1 font-medium text-white transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-20"
             onClick={handleSubmit}
+            disabled={isLoading}
           >
-            Shrani
+            {isLoading ? (
+              "..."
+            ) : (
+              <>
+                <Save height={20} />
+                Shrani
+              </>
+            )}
           </button>
         </div>
       </EditorContext.Provider>

@@ -42,9 +42,10 @@ function EditProviderForm({
     slug,
   } = provider;
 
-  const [state, formAction] = useActionState(updateProvider, {
+  const [state, formAction, isPending] = useActionState(updateProvider, {
     success: false,
   });
+
   const [file, setFile] = useState<File | null>(null);
   const [files, setFiles] = useState<FileList | null>(null);
   const [isOpenCategories, setIsOpenCategories] = useState(false);
@@ -56,6 +57,7 @@ function EditProviderForm({
     } else {
       setCategory([...category, cat]);
     }
+    setIsOpenCategories(false);
   }
 
   async function handleDeleteImg({
@@ -78,9 +80,18 @@ function EditProviderForm({
 
   return (
     <form className="flex flex-col gap-16" action={formAction}>
-      <button className="bg-accent hover:bg-accent/80 flex cursor-pointer items-center gap-3 self-end rounded-lg px-6 py-1.5 font-semibold shadow-xs transition-colors duration-200">
-        <Save height={20} />
-        Uredi profil
+      <button
+        className="bg-accent hover:bg-accent/80 flex cursor-pointer items-center gap-3 self-end rounded-lg px-6 py-1.5 font-semibold shadow-xs transition-colors duration-200 disabled:cursor-pointer disabled:opacity-20"
+        disabled={isPending}
+      >
+        {isPending ? (
+          "..."
+        ) : (
+          <>
+            <Save height={20} />
+            Uredi profil
+          </>
+        )}
       </button>
       {state.error && (
         <p className="self-end font-medium text-red-500">{state.error}</p>
@@ -132,9 +143,10 @@ function EditProviderForm({
               />
             )}
           </div>
-          {imgs && imgs.length > 0 && (
-            <div className="grid grid-cols-2 gap-3">
-              {imgs.map((img, i) => (
+          <div className="grid grid-cols-2 gap-3">
+            {imgs &&
+              imgs.length > 0 &&
+              imgs.map((img, i) => (
                 <div key={(i + 1) * 100} className="flex flex-col items-center">
                   <Image
                     src={imgsUrl[i]}
@@ -155,8 +167,39 @@ function EditProviderForm({
                   />
                 </div>
               ))}
-            </div>
-          )}
+            {files?.length &&
+              files.length > 0 &&
+              Array.from(files).map((img, i) => (
+                <div key={(i + 1) * 100} className="flex flex-col items-center">
+                  <Image
+                    src={URL.createObjectURL(img)}
+                    alt="slika"
+                    height={100}
+                    width={100}
+                    className="h-auto w-full object-cover"
+                  />
+                  <XIcon
+                    className="cursor-pointer text-red-500"
+                    onClick={() => {
+                      const updatedFiles = Array.from(files).filter(
+                        (f) => f.name !== img.name,
+                      );
+
+                      const dataTransfer = new DataTransfer();
+                      updatedFiles.forEach((file) =>
+                        dataTransfer.items.add(file),
+                      );
+
+                      if (files.length > 1) {
+                        setFiles(dataTransfer.files);
+                      } else {
+                        setFiles(null);
+                      }
+                    }}
+                  />
+                </div>
+              ))}
+          </div>
           <input
             type="file"
             multiple

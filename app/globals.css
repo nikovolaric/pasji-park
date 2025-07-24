@@ -7,6 +7,7 @@
   --color-accent: #8fb78f;
   --color-accent2: #16274c;
   --color-background: #eeeeee;
+  --breakpoint-2xl: 90rem;
 }
 
 .editor ul {
