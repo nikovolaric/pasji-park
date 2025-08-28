@@ -9,6 +9,8 @@ import ArrowRight from "../icons/ArrowRight";
 function ContactForm({ name, email }: { name: string; email: string }) {
   const [isAgree, setIsAgree] = useState(false);
 
+  console.log(email);
+
   return (
     <div className="flex flex-col gap-6 lg:grid lg:grid-cols-2 lg:gap-x-5">
       <div className="flex flex-col gap-6 lg:gap-8">
