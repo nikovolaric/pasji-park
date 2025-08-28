@@ -2,11 +2,13 @@
 
 @theme {
   --font-barlow: "var(--font-barlow)";
-  --font-zilla: "var(--font-zilla)";
-  --color-primary: #000000;
-  --color-accent: #8fb78f;
-  --color-accent2: #16274c;
-  --color-background: #eeeeee;
+  --font-ibm: "var(--font-ibm)";
+  --color-primary: #31493c;
+  --color-secondary: #ded3a7;
+  --color-terciary: #db7f67;
+  --color-black: #28292b;
+  --color-neutral-gray: #f0f1f1;
+  --color-alert: #911e00;
   --breakpoint-2xl: 90rem;
 }
 
@@ -46,4 +48,25 @@
 
 .editor h3 {
   font-size: 18px;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  margin-top: 120px;
+  margin-bottom: 140px;
+}
+
+@media (min-width: 1024px) {
+  main {
+    gap: 140px;
+    margin-top: 140px;
+    margin-bottom: 160px;
+  }
+}
+
+input,
+textarea {
+  outline: none;
 }

@@ -1,19 +1,12 @@
 "use client";
 
 import { createClient } from "@/lib/supabase/client";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Image from "next/image";
+import LinkBtn from "./LinkBtn";
+import Button from "./Button";
+import ArrowRight from "./icons/ArrowRight";
 
 export function LoginForm() {
   const [email, setEmail] = useState("");
@@ -35,7 +28,7 @@ export function LoginForm() {
       });
       if (error) throw error;
       // Update this route to redirect to an authenticated route. The user already has an active session.
-      router.push("/admin");
+      router.push("/skupnost");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
     } finally {
@@ -44,68 +37,80 @@ export function LoginForm() {
   };
 
   return (
-    <div className={"flex flex-col gap-6"}>
-      <Card className="border-accent border">
-        <CardHeader>
-          <CardTitle className="text-2xl">Višite se</CardTitle>
-          <CardDescription>
-            Vnesite elektronski naslov profil in geslo
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleLogin}>
-            <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Elektronski naslov</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="Elektronski naslov"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Geslo</Label>
-                  <Link
-                    href="/auth/forgot-password"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Ste pozabili geslo?
-                  </Link>
-                </div>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="Geslo"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              {error && <p className="text-sm text-red-500">{error}</p>}
+    <div className="flex flex-col gap-14">
+      <LinkBtn href="/" variant="terciary" className="self-start">
+        Nazaj na domačo stran
+      </LinkBtn>
+      <div className="grid gap-10 md:mx-auto md:w-2/3 lg:w-full lg:grid-cols-2 lg:gap-5">
+        <div className="bg-secondary/25 flex flex-col items-start gap-12 rounded-3xl px-7 py-12 shadow-[1px_1px_4px_rgba(0,0,0,0.25)] xl:py-16">
+          <Image
+            src="/logo.svg"
+            alt="Logo"
+            width={153}
+            height={50}
+            className="h-auto w-38 self-center"
+          />
+          <p className="font-ibm text-primary text-2xl font-semibold xl:mx-auto xl:w-2/3">
+            Prijavi se
+          </p>
+          <form
+            className="flex w-full flex-col gap-8 lg:gap-10 xl:mx-auto xl:w-2/3"
+            onSubmit={handleLogin}
+          >
+            <div className="flex flex-col gap-1.5">
+              <label className="font-medium">Elektronski naslov*</label>
+              <input
+                placeholder="Vnesite elektronski naslov"
+                className="w-full rounded-3xl border border-black bg-white px-4 py-2"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <label className="font-medium">Geslo*</label>
+              <input
+                placeholder="Vnesite geslo"
+                type="password"
+                className="w-full rounded-3xl border border-black bg-white px-4 py-2"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <LinkBtn
+              variant="text"
+              href="/auth/pozabljeno-geslo"
+              className="self-end"
+            >
+              Pozabil/a sem geslo.
+            </LinkBtn>
+            <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-0">
+              <LinkBtn
+                variant="alert"
+                href="/auth/ustvari-profil"
+                className="order-2 text-center lg:order-1 lg:text-left"
+              >
+                Še niste registrirani?
+              </LinkBtn>
               <Button
-                type="submit"
-                className="bg-accent hover:bg-accent/80 w-full cursor-pointer transition-colors duration-200"
+                variant="primary"
+                className="group flex w-full items-center gap-4 pt-1.5 pr-1.5 pb-1.5 lg:order-2 lg:w-fit"
                 disabled={isLoading}
               >
-                {isLoading ? "Logging in..." : "Login"}
+                <span className="mx-auto">Prijavi se</span>
+                <span className="tranistion-[rotate] flex h-8 w-8 -rotate-45 items-center justify-center rounded-full bg-white duration-200 group-hover:rotate-0">
+                  <ArrowRight />
+                </span>
               </Button>
             </div>
-            <div className="mt-4 text-center text-sm">
-              Še niste registrirani?{" "}
-              <Link
-                href="/auth/sign-up"
-                className="underline underline-offset-4"
-              >
-                Registrirajte se
-              </Link>
-            </div>
+            {error && <p className="text-alert font-medium">{error}</p>}
           </form>
-        </CardContent>
-      </Card>
+        </div>
+        <Image
+          src="/signup.jpg"
+          alt="Placholder slika"
+          height={950}
+          width={1730}
+          className="h-full min-h-135 w-full rounded-3xl object-cover opacity-65"
+        />
+      </div>
     </div>
   );
 }

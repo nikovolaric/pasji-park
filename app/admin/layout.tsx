@@ -1,6 +1,7 @@
 import Header from "@/components/admin/Header";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import "./admin.css";
 
 export default async function ProtectedLayout({
   children,

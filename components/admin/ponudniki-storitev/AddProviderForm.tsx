@@ -1,21 +1,31 @@
 "use client";
 
-import { createProvider } from "@/lib/actions";
+import { createProvider } from "@/lib/providerActions";
 import { ChevronDown, Save, XIcon } from "lucide-react";
 import Image from "next/image";
 import { useActionState, useState } from "react";
 
-const categories = ["Veterina", "Pasji salon"];
+const categories = ["Veterina", "Pasji salon", "Pasji hotel", "Trgovina"];
+const cities = [
+  "Rogaška Slatina",
+  "Šmarje pri Jelšah",
+  "Podčetrtek",
+  "Rogatec",
+  "Kozje",
+  "Bistrica ob Sotli",
+];
 
 function AddProviderForm() {
-  const [state, formAction,isPending] = useActionState(createProvider, {
+  const [state, formAction, isPending] = useActionState(createProvider, {
     success: false,
   });
 
   const [file, setFile] = useState<File | null>(null);
   const [files, setFiles] = useState<FileList | null>(null);
   const [isOpenCategories, setIsOpenCategories] = useState(false);
+  const [isOpenCities, setIsOpenCities] = useState(false);
   const [category, setCategory] = useState<string[]>([]);
+  const [city, setCity] = useState("");
 
   function handleCategory(cat: string) {
     if (category.includes(cat)) {
@@ -192,12 +202,48 @@ function AddProviderForm() {
               onClick={() => setIsOpenCategories((el) => !el)}
             />
             {isOpenCategories && (
-              <div className="absolute top-full left-0 flex w-full flex-col gap-3 rounded-lg border border-black/20 bg-white px-6 py-4 shadow-xs">
+              <div className="absolute top-full left-0 z-50 flex w-full flex-col gap-3 rounded-lg border border-black/20 bg-white px-6 py-4 shadow-xs">
                 {categories.map((cat, i) => (
                   <p key={i} className="flex items-center gap-4">
                     <span
                       className={`h-6 w-6 cursor-pointer rounded-lg border border-black/50 ${category.includes(cat) ? "bg-accent" : ""}`}
                       onClick={() => handleCategory(cat)}
+                    ></span>
+                    {cat}
+                  </p>
+                ))}
+              </div>
+            )}
+          </div>
+          <div className="relative col-span-2 flex flex-col gap-2">
+            <label className="font-semibold">Občina</label>
+            <input name="city" defaultValue={city} hidden />
+            <input
+              placeholder="Izberi občino ponudnika storitev"
+              className="rounded-xl border border-black/20 bg-white px-4 py-2 outline-none"
+              autoComplete="off"
+              disabled
+              value={city}
+            />
+            <ChevronDown
+              width={20}
+              className={`absolute right-8 bottom-2 cursor-pointer ${isOpenCities ? "rotate-180" : ""}`}
+              onClick={() => setIsOpenCities((el) => !el)}
+            />
+            {isOpenCities && (
+              <div className="absolute top-full left-0 flex w-full flex-col gap-3 rounded-lg border border-black/20 bg-white px-6 py-4 shadow-xs">
+                {cities.map((cat, i) => (
+                  <p key={i} className="flex items-center gap-4">
+                    <span
+                      className={`h-6 w-6 cursor-pointer rounded-lg border border-black/50 ${city === cat ? "bg-accent" : ""}`}
+                      onClick={() => {
+                        if (city === cat) {
+                          setCity("");
+                        } else {
+                          setCity(cat);
+                        }
+                        setIsOpenCities(false);
+                      }}
                     ></span>
                     {cat}
                   </p>

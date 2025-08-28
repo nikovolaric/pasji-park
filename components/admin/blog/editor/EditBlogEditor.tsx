@@ -12,7 +12,7 @@ import { ChevronDown, Save, XIcon } from "lucide-react";
 import Image from "next/image";
 import { deleteCoverImg, deleteImg, editPost } from "@/lib/actions";
 
-const categories = ["Nasveti", "Novice"];
+const categories = ["Novice", "Veterinarski nasveti", "Učni nasveti"];
 
 export default function EditBlogEditor({
   post,

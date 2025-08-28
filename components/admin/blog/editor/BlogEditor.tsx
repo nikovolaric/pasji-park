@@ -12,7 +12,7 @@ import { ChevronDown, Save, XIcon } from "lucide-react";
 import Image from "next/image";
 import { addPost } from "@/lib/actions";
 
-const categories = ["Nasveti", "Novice"];
+const categories = ["Novice", "Veterinarski nasveti", "Učni nasveti"];
 
 export default function BlogEditor() {
   const [title, setTitle] = useState("");

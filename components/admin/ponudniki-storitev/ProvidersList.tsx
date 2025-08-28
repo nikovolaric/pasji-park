@@ -17,7 +17,7 @@ function ProvidersList({
   providers: {
     name: string;
     location: string;
-    category: string;
+    category: string[];
     openingTime: {
       monday?: string;
       tuesday?: string;
@@ -65,7 +65,7 @@ function ProvidersList({
             provider: {
               name: string;
               location: string;
-              category: string;
+              category: string[];
               openingTime: {
                 monday?: string;
                 tuesday?: string;

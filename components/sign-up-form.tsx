@@ -1,20 +1,14 @@
 "use client";
 
 import { createClient } from "@/lib/supabase/client";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Check } from "lucide-react";
+import LinkBtn from "./LinkBtn";
+import Image from "next/image";
+import Button from "./Button";
+import ArrowRight from "./icons/ArrowRight";
 
 export function SignUpForm() {
   const router = useRouter();
@@ -50,7 +44,7 @@ export function SignUpForm() {
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/ustvari-profil`,
+          emailRedirectTo: `${window.location.origin}/zakljuci-profil`,
         },
       });
 
@@ -65,83 +59,92 @@ export function SignUpForm() {
   };
 
   return (
-    <div className={"flex flex-col gap-6"}>
-      <Card className="border-accent border">
-        <CardHeader>
-          <CardTitle className="text-2xl">Registriraj se</CardTitle>
-          <CardDescription>Ustvari nov račun</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSignUp}>
-            <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Elektronski naslov</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="Elektronski naslov"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Geslo</Label>
-                </div>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="************"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="repeat-password">Potrdite geslo</Label>
-                </div>
-                <Input
-                  id="repeat-password"
-                  type="password"
-                  placeholder="************"
-                  required
-                  value={repeatPassword}
-                  onChange={(e) => setRepeatPassword(e.target.value)}
-                />
-              </div>
-              <div className="items-cetner flex gap-4">
-                <span
-                  className={`border-primary flex h-6 w-6 cursor-pointer items-center justify-center rounded-lg border ${agreeToTerms ? "bg-accent" : "bg-white"}`}
-                  onClick={() =>
-                    setAgreeToTerms((agree) => (!agree ? true : false))
-                  }
-                >
-                  <Check height={24} className="text-white" />
-                </span>
-                <div className="flex items-center">
-                  <Label>Strinjam se s pogoji uporabe platforme.</Label>
-                </div>
-              </div>
-              {error && <p className="text-sm text-red-500">{error}</p>}
-              <Button
-                type="submit"
-                className="bg-accent hover:bg-accent/80 w-full cursor-pointer transition-colors duration-200"
-                disabled={isLoading}
+    <div className="flex flex-col gap-14">
+      <LinkBtn href="/" variant="terciary" className="self-start">
+        Nazaj na domačo stran
+      </LinkBtn>
+      <div className="grid gap-10 md:mx-auto md:w-2/3 lg:w-full lg:grid-cols-2 lg:gap-5">
+        <div className="bg-secondary/25 flex flex-col items-start gap-12 rounded-3xl px-7 py-12 shadow-[1px_1px_4px_rgba(0,0,0,0.25)] xl:py-16">
+          <Image
+            src="/logo.svg"
+            alt="Logo"
+            width={153}
+            height={50}
+            className="h-auto w-38 self-center"
+          />
+          <p className="font-ibm text-primary text-2xl font-semibold xl:mx-auto xl:w-2/3">
+            Registriraj se
+          </p>
+          <form
+            className="flex w-full flex-col gap-8 lg:gap-10 xl:mx-auto xl:w-2/3"
+            onSubmit={handleSignUp}
+          >
+            <div className="flex flex-col gap-1.5">
+              <label className="font-medium">Elektronski naslov*</label>
+              <input
+                placeholder="Vnesite elektronski naslov"
+                className="w-full rounded-3xl border border-black bg-white px-4 py-2"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <label className="font-medium">Nastavite geslo za prijavo*</label>
+              <input
+                placeholder="Vnesite geslo"
+                type="password"
+                className="w-full rounded-3xl border border-black bg-white px-4 py-2"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <label className="font-medium">Potrdite geslo za prijavo*</label>
+              <input
+                placeholder="Ponovno vnesite geslo"
+                type="password"
+                className="w-full rounded-3xl border border-black bg-white px-4 py-2"
+                onChange={(e) => setRepeatPassword(e.target.value)}
+              />
+            </div>
+            <div className="items-cetner flex gap-4">
+              <span
+                className={`border-primary flex h-6 w-6 cursor-pointer items-center justify-center rounded-lg border ${agreeToTerms ? "bg-primary" : "bg-white"}`}
+                onClick={() =>
+                  setAgreeToTerms((agree) => (!agree ? true : false))
+                }
               >
-                {isLoading ? "Creating an account..." : "Sign up"}
-              </Button>
+                <Check height={24} className="text-white" />
+              </span>
+              <div className="flex items-center">
+                <label>
+                  Prebral/a sem in strinjam se s{" "}
+                  <Link href="/pogoji-poslovanja" className="underline">
+                    Splošnimi pogoji uporabe
+                  </Link>{" "}
+                  spletne aplikacije E-kosmatinec.
+                </label>
+              </div>
             </div>
-            <div className="mt-4 text-center text-sm">
-              Ste se že registrirali?{" "}
-              <Link href="/auth/login" className="underline underline-offset-4">
-                Login
-              </Link>
-            </div>
+            <Button
+              variant="primary"
+              className="group flex items-center gap-4 self-end pt-1.5 pr-1.5 pb-1.5"
+              disabled={isLoading}
+            >
+              Registriraj se
+              <span className="tranistion-[rotate] flex h-8 w-8 -rotate-45 items-center justify-center rounded-full bg-white duration-200 group-hover:rotate-0">
+                <ArrowRight />
+              </span>
+            </Button>
+            {error && <p className="text-alert font-medium">{error}</p>}
           </form>
-        </CardContent>
-      </Card>
+        </div>
+        <Image
+          src="/signup.jpg"
+          alt="Placholder slika"
+          height={950}
+          width={1730}
+          className="h-full min-h-135 w-full rounded-3xl object-cover opacity-65"
+        />
+      </div>
     </div>
   );
 }

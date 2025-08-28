@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteProvider } from "@/lib/actions";
+import { deleteProvider } from "@/lib/providerActions";
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
 
