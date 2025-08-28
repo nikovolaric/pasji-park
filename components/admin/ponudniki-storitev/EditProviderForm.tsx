@@ -1,10 +1,7 @@
 "use client";
 
-import {
-  deleteCoverImg,
-  deleteImg,
-  updateProvider,
-} from "@/lib/providerActions";
+import { deleteCoverImg, deleteImg } from "@/lib/actions";
+import { updateProvider } from "@/lib/providerActions";
 import { ChevronDown, Save, XIcon } from "lucide-react";
 import Image from "next/image";
 import { useActionState, useState } from "react";
