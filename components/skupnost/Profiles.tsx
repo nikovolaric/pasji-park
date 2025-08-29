@@ -3,14 +3,16 @@ import Image from "next/image";
 import { H4 } from "../Text";
 import Link from "next/link";
 
-async function Profiles() {
-  const data = await getAllProfiles();
+async function Profiles({ city, id }: { city?: string; id?: string }) {
+  const data = await getAllProfiles({ city });
 
   return (
     <div className="grid grid-cols-2 gap-x-5 gap-y-8 md:grid-cols-3 lg:gap-y-16 xl:grid-cols-4">
-      {data?.map((el) => (
-        <ProfileCard key={el.user_id} profile={el} />
-      ))}
+      {city
+        ? data
+            ?.filter((el) => el.user_id !== id)
+            .map((el) => <ProfileCard key={el.user_id} profile={el} />)
+        : data?.map((el) => <ProfileCard key={el.user_id} profile={el} />)}
     </div>
   );
 }

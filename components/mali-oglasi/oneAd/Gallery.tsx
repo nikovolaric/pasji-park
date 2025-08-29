@@ -10,7 +10,7 @@ function Gallery({
   category,
 }: {
   coverImg: string;
-  imgs: string[];
+  imgs: string[] | null;
   category: string[];
 }) {
   const [curImg, setCurImg] = useState("");
@@ -26,17 +26,20 @@ function Gallery({
         onClick={() => setCurImg(coverImg)}
       />
       <div className="grid grid-cols-3 gap-x-4">
-        {imgs.slice(0, 2).map((img) => (
-          <Image
-            key={img}
-            src={img}
-            alt="Slika oglasa"
-            width={200}
-            height={150}
-            className="h-25 w-full cursor-pointer rounded-3xl object-cover lg:h-38"
-            onClick={() => setCurImg(img)}
-          />
-        ))}
+        {imgs &&
+          imgs
+            .slice(0, 2)
+            .map((img) => (
+              <Image
+                key={img}
+                src={img}
+                alt="Slika oglasa"
+                width={200}
+                height={150}
+                className="h-25 w-full cursor-pointer rounded-3xl object-cover lg:h-38"
+                onClick={() => setCurImg(img)}
+              />
+            ))}
       </div>
       <div className="absolute top-4 left-4 z-20">
         {category.map((el) => (
@@ -53,12 +56,12 @@ function Gallery({
           <Image
             src={curImg}
             alt="Izbrana slika"
-            className="mx-4 mt-20 h-auto max-h-[75dvh] w-auto object-cover md:mx-8 lg:mx-20 xl:mx-auto xl:mt-25 xl:max-w-[1280px]"
+            className="mx-4 mt-20 h-auto max-h-[65dvh] w-auto object-cover md:mx-8 lg:mx-20 xl:mx-auto xl:mt-25 xl:max-w-[1280px]"
             height={1440}
             width={900}
           />
           <div className="mx-4 grid grid-cols-3 gap-x-4 gap-y-4 md:mx-8 md:grid-cols-6 lg:mx-20 xl:mx-auto xl:max-w-[1280px]">
-            {[coverImg, ...imgs].map((el) => (
+            {(imgs ? [coverImg, ...imgs] : [coverImg]).map((el) => (
               <Image
                 key={el}
                 src={el}

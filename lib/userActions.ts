@@ -7,12 +7,37 @@ const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SUPABASE_KEY = process.env.SUPABASE_KEY!;
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-export async function getAllProfiles() {
+export async function getAllProfiles({city}:{city?:string}) {
+  try {
+    const query = supabase
+      .from("profiles")
+      .select()
+      .eq("visible", true);
+
+if(city){
+  query.eq("city",city)
+}
+
+
+      const { data, error } =await query
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getProfile({ id }: { id: string }) {
   try {
     const { data, error } = await supabase
       .from("profiles")
       .select()
-      .eq("visible", true);
+      .eq("user_id", id)
+      .single();
 
     if (error) {
       throw error;
