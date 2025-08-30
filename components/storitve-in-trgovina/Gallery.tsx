@@ -9,7 +9,7 @@ function Gallery({
   imgs,
 }: {
   coverImg: string;
-  imgs: string[] | null;
+  imgs?: string[] | null;
 }) {
   const [curImg, setCurImg] = useState("");
 
