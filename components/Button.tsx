@@ -29,7 +29,7 @@ function Button({ className, variant, ...rest }: CustomButtonProps) {
       disabled={rest.disabled ?? pending}
       {...rest}
     >
-      {pending ? "..." : rest.children}
+      {rest.disabled || pending ? "..." : rest.children}
     </button>
   );
 }

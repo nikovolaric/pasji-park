@@ -237,7 +237,7 @@ export default function EditBlogEditor({
                 onChange={(e) => setFiles(e.target.files)}
               />
 
-              {files?.length || imgs.length > 0 ? (
+              {files?.length || (imgs?.length ?? 0) > 0 ? (
                 <div className="grid grid-cols-2 gap-3">
                   {(files ? [...files, ...imgs] : imgs).map((f, i) => (
                     <div

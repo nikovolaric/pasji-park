@@ -7,19 +7,15 @@ const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SUPABASE_KEY = process.env.SUPABASE_KEY!;
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-export async function getAllProfiles({city}:{city?:string}) {
+export async function getAllProfiles({ city }: { city?: string }) {
   try {
-    const query = supabase
-      .from("profiles")
-      .select()
-      .eq("visible", true);
+    const query = supabase.from("profiles").select().eq("visible", true);
 
-if(city){
-  query.eq("city",city)
-}
+    if (city) {
+      query.eq("city", city);
+    }
 
-
-      const { data, error } =await query
+    const { data, error } = await query;
 
     if (error) {
       throw error;
@@ -126,4 +122,8 @@ export async function updateProfilePhoto({
   } catch (error) {
     console.log(error);
   }
+}
+
+export async function refreshHomepage() {
+  revalidatePath("/");
 }

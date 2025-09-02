@@ -7,6 +7,7 @@ import Image from "next/image";
 import LinkBtn from "./LinkBtn";
 import Button from "./Button";
 import ArrowRight from "./icons/ArrowRight";
+import { refreshHomepage } from "@/lib/userActions";
 
 export function LoginForm() {
   const [email, setEmail] = useState("");
@@ -27,7 +28,8 @@ export function LoginForm() {
         password,
       });
       if (error) throw error;
-      // Update this route to redirect to an authenticated route. The user already has an active session.
+
+      await refreshHomepage();
       router.push("/skupnost");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");

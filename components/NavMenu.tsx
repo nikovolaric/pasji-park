@@ -4,6 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import LinkBtn from "./LinkBtn";
 import { usePathname } from "next/navigation";
+import { LogOut } from "lucide-react";
+import Button from "./Button";
+import { createClient } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { refreshHomepage } from "@/lib/userActions";
 
 const paths = [
   {
@@ -26,6 +32,9 @@ const paths = [
 
 function NavMenu({ data }: { data?: { user: unknown } }) {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   if (
     pathname.startsWith("/auth") ||
@@ -33,6 +42,25 @@ function NavMenu({ data }: { data?: { user: unknown } }) {
     pathname === "/zakljuci-profil"
   ) {
     return <></>;
+  }
+
+  async function logout() {
+    try {
+      setIsLoading(true);
+
+      const supabase = createClient();
+
+      const { error } = await supabase.auth.signOut();
+
+      if (error) throw error;
+
+      await refreshHomepage();
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -68,13 +96,14 @@ function NavMenu({ data }: { data?: { user: unknown } }) {
           Prijavi se v profil
         </LinkBtn>
       ) : (
-        <LinkBtn
-          variant="secondary"
-          href="/moj-profil"
-          className="hidden lg:block"
-        >
-          Moj profil
-        </LinkBtn>
+        <div className="hidden items-center gap-2 lg:flex">
+          <LinkBtn variant="secondary" href="/moj-profil">
+            Moj profil
+          </LinkBtn>
+          <Button variant="secondary" onClick={logout} disabled={isLoading}>
+            <LogOut className="h-6" />
+          </Button>
+        </div>
       )}
     </nav>
   );

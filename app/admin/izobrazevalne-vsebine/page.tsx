@@ -23,7 +23,11 @@ async function Page({
   const from = (pageNumber - 1) * pageSize;
   const to = from + pageSize - 1;
 
-  let query = supabase.from("posts").select("*").range(from, to);
+  let query = supabase
+    .from("posts")
+    .select("*")
+    .range(from, to)
+    .order("created_at", { ascending: false });
 
   if (title) {
     query = query.ilike("title", `%${title}%`);
