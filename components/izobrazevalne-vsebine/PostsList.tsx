@@ -38,7 +38,7 @@ function PostListCard({
         alt="slika ozadje"
         fill
         sizes="100%"
-        className="rounded-3xl opacity-50"
+        className="rounded-3xl object-cover opacity-50"
       />
       <p className="bg-neutral-gray absolute top-6 left-6 rounded-full px-4 py-2 font-light shadow-[1px_1px_4px_rgba(0,0,0,0.25)]">
         {post.category}
