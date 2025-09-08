@@ -56,7 +56,10 @@ function Footer() {
         </a>
       </div>
       <div>
-        <Link href="/storitve-in-trgovine"></Link>
+        <Link href="/storitve-in-trgovine">Storitve in trgovine</Link>
+        <Link href="/mali-oglasi">Mali oglasi</Link>
+        <Link href="/izobrazevalne-vsebine">Izobraževalne vsebine</Link>
+        <Link href="/skupnost">Skupnost</Link>
       </div>
     </div>
   );
