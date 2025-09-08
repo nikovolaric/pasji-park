@@ -31,7 +31,7 @@ function PostListCard({
   return (
     <Link
       href={`/izobrazevalne-vsebine/${post.slug}`}
-      className={`group relative rounded-3xl px-4 pb-4 md:px-6 md:pb-6 ${i === 0 ? "pt-35 md:pt-62 lg:row-span-2" : "pt-42"}`}
+      className={`group relative rounded-3xl px-4 pb-4 md:px-6 md:pb-6 ${i === 0 ? "pt-35 md:pt-62 lg:row-span-2 lg:flex lg:h-full lg:items-end" : "pt-42"}`}
     >
       <Image
         src={`https://fgyuzrieoxfpneovebta.supabase.co/storage/v1/object/public/blog-posts/${post.coverImg}`}

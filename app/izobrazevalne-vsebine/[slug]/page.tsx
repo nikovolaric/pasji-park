@@ -20,7 +20,7 @@ async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const data = await getOnePost({ slug });
 
   return (
-    <div className="mt-12 flex flex-col gap-14 text-black lg:gap-16">
+    <div className="mt-12 mb-35 flex flex-col gap-14 text-black lg:mb-40 lg:gap-16">
       <div className="relative h-54 w-full">
         <Image
           src={`https://fgyuzrieoxfpneovebta.supabase.co/storage/v1/object/public/blog-posts/${data.coverImg}`}
@@ -40,7 +40,15 @@ async function Page({ params }: { params: Promise<{ slug: string }> }) {
           year: "numeric",
         })}
       </p>
-      <div dangerouslySetInnerHTML={{ __html: data.html }} className="editor" />
+      <h1 className="font-ibm text-xl font-semibold text-black lg:text-2xl">
+        {data.title}
+      </h1>
+      <div
+        dangerouslySetInnerHTML={{
+          __html: data.html.replaceAll("<p></p>", "<br/>"),
+        }}
+        className="editor whitespace-pre-line"
+      />
     </div>
   );
 }

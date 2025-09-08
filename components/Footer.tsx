@@ -3,6 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Message from "./icons/Message";
+import LinkBtn from "./LinkBtn";
 
 function Footer() {
   const pathname = usePathname();
@@ -10,7 +12,7 @@ function Footer() {
   if (pathname.startsWith("/admin")) return <></>;
 
   return (
-    <div className="bg-secondary/35 font-ibm flex flex-col gap-12 rounded-3xl px-8 py-12 lg:grid lg:grid-cols-3 lg:gap-x-5">
+    <div className="bg-secondary/35 font-ibm flex flex-col gap-12 rounded-3xl px-8 py-12 xl:grid xl:grid-cols-3 xl:gap-x-5">
       <Image
         src="/logo.svg"
         alt="logo"
@@ -60,6 +62,22 @@ function Footer() {
         <Link href="/mali-oglasi">Mali oglasi</Link>
         <Link href="/izobrazevalne-vsebine">Izobraževalne vsebine</Link>
         <Link href="/skupnost">Skupnost</Link>
+      </div>
+      <div className="flex h-full flex-col gap-11 lg:justify-between">
+        <p className="text-primary flex items-center gap-4 font-medium">
+          <span className="bg-secondary flex h-10 w-10 items-center justify-center rounded-full">
+            <Message />
+          </span>
+          info@e-kosmatinec.si
+        </p>
+        <div className="flex gap-4">
+          <LinkBtn href="/politika-zasebnosti" variant="terciary">
+            Politika zasebnosti
+          </LinkBtn>
+          <LinkBtn href="/piskotki" variant="primary">
+            Piškotki
+          </LinkBtn>
+        </div>
       </div>
     </div>
   );
