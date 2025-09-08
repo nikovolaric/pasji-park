@@ -44,7 +44,7 @@ export function SignUpForm() {
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/zakljuci-profil`,
+          emailRedirectTo: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/zakljuci-profil`,
         },
       });
 

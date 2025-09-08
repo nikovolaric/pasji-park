@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 function Footer() {
@@ -27,6 +28,35 @@ function Footer() {
           <br />
           3250 Rogaška Slatina
         </a>
+        <a
+          href="https://www.inkubator-rs.si/pametni-pasji-park-skupnost-ucenje-in-trajnost/"
+          className="flex items-center"
+        >
+          <Image
+            src="/eu-fund.png"
+            alt="Sofinanciranje EU"
+            height={50}
+            width={200}
+            className="h-auto w-44 lg:w-50"
+          />
+          <Image
+            src="/ifeel.png"
+            alt="I FEEL SLOVENIA"
+            height={50}
+            width={80}
+            className="h-auto w-18 lg:w-20"
+          />
+          <Image
+            src="/las.png"
+            alt="LAS"
+            height={50}
+            width={52}
+            className="h-auto w-12"
+          />
+        </a>
+      </div>
+      <div>
+        <Link href="/storitve-in-trgovine"></Link>
       </div>
     </div>
   );
