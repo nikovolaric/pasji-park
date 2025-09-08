@@ -10,16 +10,16 @@ function Footer() {
   if (pathname.startsWith("/admin")) return <></>;
 
   return (
-    <div className="bg-secondary/35 flex flex-col gap-12 rounded-3xl px-8 py-12">
+    <div className="bg-secondary/35 font-ibm flex flex-col gap-12 rounded-3xl px-8 py-12 lg:grid lg:grid-cols-3 lg:gap-x-5">
       <Image
         src="/logo.svg"
         alt="logo"
         height={50}
         width={150}
-        className="h-auto w-38"
+        className="col-span-3 h-auto w-38"
       />
-      <div className="flex flex-col gap-6 lg:gap-12">
-        <a href="https://www.inkubator-rs.si" className="font-ibm">
+      <div className="flex flex-col gap-6 text-black lg:gap-12">
+        <a href="https://www.inkubator-rs.si">
           Upravitelj platforme e-kosmatinec je
           <br />
           <span className="font-medium">MPI Vrelec d.o.o.</span>
@@ -55,7 +55,7 @@ function Footer() {
           />
         </a>
       </div>
-      <div>
+      <div className="text-primary flex flex-col gap-6 font-medium">
         <Link href="/storitve-in-trgovine">Storitve in trgovine</Link>
         <Link href="/mali-oglasi">Mali oglasi</Link>
         <Link href="/izobrazevalne-vsebine">Izobraževalne vsebine</Link>

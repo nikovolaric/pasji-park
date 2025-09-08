@@ -9,7 +9,6 @@ import LinkBtn from "./LinkBtn";
 import Image from "next/image";
 import Button from "./Button";
 import ArrowRight from "./icons/ArrowRight";
-import { randomInt } from "crypto";
 
 function CreateProfileForm({ user }: { user?: User }) {
   const router = useRouter();
@@ -36,7 +35,7 @@ function CreateProfileForm({ user }: { user?: User }) {
       if (user && file) {
         const { data } = await supabase.storage
           .from("pasji-park-users")
-          .upload(`users/${name}-${randomInt(1, 999)}`, file);
+          .upload(`users/${name}-${Math.random().toFixed(2)}`, file);
 
         const { error } = await supabase.from("profiles").insert([
           {
