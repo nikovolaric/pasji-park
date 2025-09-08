@@ -107,7 +107,7 @@ export async function addPost({
 
     const { data: coverImgData, error: coverImgError } = await supabase.storage
       .from("blog-posts")
-      .upload(`${data.slug}-coverImg`, coverImg!);
+      .upload(`coverImg-${coverImg!.name}`, coverImg!);
 
     if (coverImgError) throw coverImgError;
 
@@ -193,7 +193,7 @@ export async function editPost({
       const { data: coverImgData, error: coverImgError } =
         await supabase.storage
           .from("blog-posts")
-          .upload(`${data.slug}-coverImg`, coverImg!);
+          .update(curData.coverImg, coverImg!);
 
       if (coverImgError) throw coverImgError;
 

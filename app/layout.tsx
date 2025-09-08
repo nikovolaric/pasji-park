@@ -3,6 +3,7 @@ import { Barlow, IBM_Plex_Sans, Zilla_Slab } from "next/font/google";
 import "./globals.css";
 import NavMenu from "@/components/NavMenu";
 import { createClient } from "@/lib/supabase/server";
+import Footer from "@/components/Footer";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -58,6 +59,7 @@ export default async function RootLayout({
       >
         <NavMenu data={data} />
         {children}
+        <Footer />
       </body>
     </html>
   );
