@@ -117,7 +117,7 @@ export function SignUpForm() {
               <div className="flex items-center">
                 <label>
                   Prebral/a sem in strinjam se s{" "}
-                  <Link href="/pogoji-poslovanja" className="underline">
+                  <Link href="/politika-zasebnosti" className="underline">
                     Splošnimi pogoji uporabe
                   </Link>{" "}
                   spletne aplikacije E-kosmatinec.

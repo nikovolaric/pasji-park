@@ -89,8 +89,8 @@ function ContactForm({ name, email }: { name: string; email: string }) {
           </div>
           <p>
             Z izpolnitvijo kontaktnega obrazca se strinjam s{" "}
-            <Link href={"/pogoji-poslovanja"} className="underline">
-              Splošnimi pogoji poslovanja.
+            <Link href={"/politika-zasebnosti"} className="underline">
+              Splošnimi pogoji.
             </Link>
           </p>
         </div>
