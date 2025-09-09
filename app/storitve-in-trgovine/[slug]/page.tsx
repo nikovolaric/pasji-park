@@ -22,7 +22,7 @@ async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const data = await getOneProvider({ slug });
 
   return (
-    <div className="mt-14 flex flex-col gap-20 lg:mt-20 lg:gap-35">
+    <div className="mt-14 mb-35 flex flex-col gap-20 lg:mt-20 lg:mb-40 lg:gap-35">
       <LinkBtn
         variant="terciary"
         className="self-start"

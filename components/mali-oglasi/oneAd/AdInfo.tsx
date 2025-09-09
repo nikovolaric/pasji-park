@@ -51,7 +51,7 @@ async function AdInfo({
   }
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="mb-40 flex flex-col gap-8">
       <h1 className="text-primary font-ibm text-2xl font-bold">{title}</h1>
       <div className="flex flex-col gap-4 md:flex-row md:justify-between">
         <p>

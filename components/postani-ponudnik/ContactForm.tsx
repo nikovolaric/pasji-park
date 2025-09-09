@@ -5,9 +5,9 @@ import { H3 } from "../Text";
 import Link from "next/link";
 import Button from "../Button";
 import ArrowRight from "../icons/ArrowRight";
-import { sendEnquiryToProvider } from "@/lib/mailActions";
+import { sendNewProviderMailAction } from "@/lib/mailActions";
 
-function ContactForm({ name, email }: { name: string; email: string }) {
+function ContactForm() {
   const [isAgree, setIsAgree] = useState(false);
   const [err, setErr] = useState("");
   const [msg, setMsg] = useState("");
@@ -22,16 +22,14 @@ function ContactForm({ name, email }: { name: string; email: string }) {
         );
       }
 
-      formData.append("provider_mail", email);
-
-      const res = await sendEnquiryToProvider(formData);
+      const res = await sendNewProviderMailAction(formData);
 
       if (!res) {
         throw new Error("Nekaj je šlo narobe. Prosimo poiskusite kasneje.");
       }
 
       setMsg(
-        "Uspešno ste poslali sporočilo. Ponudnik vas bo kontaktiral v najkrašem monžem času.",
+        "Uspešno ste poslali sporočilo. V najkrajšem možnem času vam bomo odgovorili.",
       );
     } catch (error) {
       setErr((error as Error).message);
@@ -41,21 +39,32 @@ function ContactForm({ name, email }: { name: string; email: string }) {
   return (
     <div className="flex flex-col gap-6 lg:grid lg:grid-cols-2 lg:gap-x-5">
       <div className="flex flex-col gap-6 lg:gap-8">
-        <H3>Kontaktirajte ponudnika {name}</H3>
+        <H3>
+          Kontaktirajte nas in se brezplačno promovirajte na naši platformi!
+        </H3>
         <p className="text-black lg:text-lg">
-          Z izpolnitvijo kontaktnega obrazca, boste direktno kontaktirali
-          želenega ponudnika. Ta vam bo na vaše povpraševanje odgovoril v
-          najkrajšem možnem času.
+          Z izpolnitvijo kontaktnega obrazca, boste kontaktirali skrbnika
+          spletne platforme Pasji park, ki vas bo v čim krajšem času kontaktiral
+          in po dogovoru, za vas ustvaril profil ponudnika.
         </p>
       </div>
       <form className="flex flex-col gap-3 lg:gap-4" action={handleAction}>
-        <input
-          className="w-full rounded-3xl border border-black bg-white px-4 py-2"
-          name="name"
-          placeholder="Ime in priimek*:"
-          required
-          autoComplete="off"
-        />
+        <div className="flex flex-col gap-3 lg:grid lg:grid-cols-2 lg:gap-5">
+          <input
+            className="w-full rounded-3xl border border-black bg-white px-4 py-2"
+            name="name"
+            placeholder="Ime ponudnika oz. trgovine*:"
+            required
+            autoComplete="off"
+          />
+          <input
+            className="w-full rounded-3xl border border-black bg-white px-4 py-2"
+            name="contact_person"
+            placeholder="Ime in priimek kontaktne osebe*:"
+            required
+            autoComplete="off"
+          />
+        </div>
         <div className="flex flex-col gap-3 lg:grid lg:grid-cols-2 lg:gap-5">
           <input
             className="w-full rounded-3xl border border-black bg-white px-4 py-2"
@@ -74,7 +83,7 @@ function ContactForm({ name, email }: { name: string; email: string }) {
         <textarea
           className="min-h-60 w-full rounded-3xl border border-black bg-white px-4 py-2"
           name="message"
-          placeholder="Napišite sporočilo za ponudnika*:"
+          placeholder="Kratek opis storitev, lokacija*:"
           required
           autoComplete="off"
         />

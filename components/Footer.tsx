@@ -21,7 +21,7 @@ function Footer() {
         className="col-span-3 h-auto w-38"
       />
       <div className="flex flex-col gap-6 text-black lg:gap-12">
-        <a href="https://www.inkubator-rs.si">
+        <a href="https://www.inkubator-rs.si" target="_blank">
           Upravitelj platforme e-kosmatinec je
           <br />
           <span className="font-medium">MPI Vrelec d.o.o.</span>
@@ -32,6 +32,7 @@ function Footer() {
         </a>
         <a
           href="https://www.inkubator-rs.si/pametni-pasji-park-skupnost-ucenje-in-trajnost/"
+          target="_blank"
           className="flex items-center"
         >
           <Image

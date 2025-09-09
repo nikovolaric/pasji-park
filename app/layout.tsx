@@ -4,6 +4,7 @@ import "./globals.css";
 import NavMenu from "@/components/NavMenu";
 import { createClient } from "@/lib/supabase/server";
 import Footer from "@/components/Footer";
+import CookieConsent from "@/components/CookieConsent";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -54,6 +55,7 @@ export default async function RootLayout({
       suppressHydrationWarning
       className={`${barlow.variable} ${zilla.variable} ${ibm.variable} bg-neutral-gray`}
     >
+      <CookieConsent />
       <body
         className={`${barlow.className} mx-4 mt-9 max-w-[1440px] md:mx-8 lg:mx-20 lg:mt-14 xl:mx-auto xl:px-20`}
       >

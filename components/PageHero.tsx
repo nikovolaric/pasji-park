@@ -14,8 +14,8 @@ function PageHero({
   children: ReactNode;
   img: StaticImageData;
   title: string;
-  href: string;
-  btn: string;
+  href?: string;
+  btn?: string;
 }) {
   return (
     <div className="relative mt-14 max-h-104 min-h-75 px-6 pt-4 pb-10 lg:mt-20 lg:px-8 lg:pt-6 lg:pb-39">
@@ -27,16 +27,20 @@ function PageHero({
         className="rounded-3xl object-cover opacity-50"
       />
       <div className="relative flex flex-col items-center gap-4 text-center lg:gap-12">
-        <LinkBtn
-          href={href}
-          variant="primary"
-          className="group mb-8 flex items-center gap-4 self-start pt-1.5 pr-1.5 pb-1.5 lg:mb-9"
-        >
-          {btn}
-          <span className="tranistion-[rotate] flex h-8 w-8 -rotate-45 items-center justify-center rounded-full bg-white duration-200 group-hover:rotate-0">
-            <ArrowRight />
-          </span>
-        </LinkBtn>
+        {href ? (
+          <LinkBtn
+            href={href}
+            variant="primary"
+            className="group mb-8 flex items-center gap-4 self-start pt-1.5 pr-1.5 pb-1.5 lg:mb-9"
+          >
+            {btn}
+            <span className="tranistion-[rotate] flex h-8 w-8 -rotate-45 items-center justify-center rounded-full bg-white duration-200 group-hover:rotate-0">
+              <ArrowRight />
+            </span>
+          </LinkBtn>
+        ) : (
+          <div className="mb-8 lg:mb-9" />
+        )}
         <H1>{title}</H1>
         <H2>{children}</H2>
       </div>

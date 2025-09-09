@@ -10,7 +10,7 @@ function Gallery({
   category,
 }: {
   coverImg: string;
-  imgs?: string[] | null;
+  imgs: string[];
   category: string[];
 }) {
   const [curImg, setCurImg] = useState("");
@@ -25,22 +25,21 @@ function Gallery({
         className="h-66 w-full cursor-pointer rounded-3xl object-cover lg:h-102"
         onClick={() => setCurImg(coverImg)}
       />
-      <div className="grid grid-cols-3 gap-x-4">
-        {imgs &&
-          imgs
-            .slice(0, 2)
-            .map((img) => (
-              <Image
-                key={img}
-                src={img}
-                alt="Slika oglasa"
-                width={200}
-                height={150}
-                className="h-25 w-full cursor-pointer rounded-3xl object-cover lg:h-38"
-                onClick={() => setCurImg(img)}
-              />
-            ))}
-      </div>
+      {imgs[0] && (
+        <div className="grid grid-cols-3 gap-x-4">
+          {imgs.slice(0, 2).map((img) => (
+            <Image
+              key={img}
+              src={img}
+              alt="Slika oglasa"
+              width={200}
+              height={150}
+              className="h-25 w-full cursor-pointer rounded-3xl object-cover lg:h-38"
+              onClick={() => setCurImg(img)}
+            />
+          ))}
+        </div>
+      )}
       <div className="absolute top-4 left-4 z-20">
         {category.map((el) => (
           <p
@@ -61,7 +60,7 @@ function Gallery({
             width={900}
           />
           <div className="mx-4 grid grid-cols-3 gap-x-4 gap-y-4 md:mx-8 md:grid-cols-6 lg:mx-20 xl:mx-auto xl:max-w-[1280px]">
-            {(imgs ? [coverImg, ...imgs] : [coverImg]).map((el) => (
+            {(imgs[0] ? [coverImg, ...imgs] : [coverImg]).map((el) => (
               <Image
                 key={el}
                 src={el}
