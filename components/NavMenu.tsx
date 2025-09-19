@@ -4,12 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import LinkBtn from "./LinkBtn";
 import { usePathname } from "next/navigation";
-import { LogOut } from "lucide-react";
+import { Equal, LogOut } from "lucide-react";
 import Button from "./Button";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { refreshHomepage } from "@/lib/userActions";
+import User from "./icons/User";
+import MobileNav from "./MobileNav";
 
 const paths = [
   {
@@ -35,6 +37,14 @@ function NavMenu({ data }: { data?: { user: unknown } }) {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(
+    function () {
+      setIsOpen(false);
+    },
+    [pathname],
+  );
 
   if (
     pathname.startsWith("/auth") ||
@@ -74,7 +84,21 @@ function NavMenu({ data }: { data?: { user: unknown } }) {
           className="h-auto w-30 object-contain lg:w-36"
         />
       </Link>
-      <div className="lg:hidden"></div>
+      <div className="flex items-center gap-2 lg:hidden">
+        <Link
+          href="/moj-profil"
+          className="bg-secondary flex h-12 w-12 items-center justify-center rounded-full"
+        >
+          <User />
+        </Link>
+        <div
+          className="border-secondary flex h-12 w-12 items-center justify-center rounded-full border bg-white"
+          onClick={() => setIsOpen(true)}
+        >
+          <Equal />
+        </div>
+      </div>
+      {isOpen && <MobileNav setIsOpen={setIsOpen} />}
       <ul className="border-secondary hidden items-center gap-4 rounded-3xl border bg-white px-8 py-2.5 lg:flex xl:gap-14">
         {paths.map((el, i) => (
           <li key={i}>
